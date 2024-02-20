@@ -65,6 +65,11 @@ scrollLinks.forEach(function(link){
         if(!fixedNav){
             position -= navHeight;
         }
+
+        if(navHeight > 82){
+            position += containerHeight;
+        }
+        
         window.scrollTo({
             left:0,
             top: position,
