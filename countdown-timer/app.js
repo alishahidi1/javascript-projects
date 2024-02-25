@@ -33,7 +33,7 @@ let tempDay = tempDate.getDate();
 
 // let futureDate = new Date(2024, 4, 26, 19, 30, 0);
 
-const futureDate = new Date(tempYear, tempMonth, tempDay + 7);
+const futureDate = new Date(tempYear, tempMonth, tempDay + 7, 19, 30, 0);
 const year = futureDate.getFullYear();
 const hours = futureDate.getHours();
 const mins = futureDate.getMinutes();
