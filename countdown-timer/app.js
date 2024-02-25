@@ -24,7 +24,7 @@ const weekdays = [
 
 const giveaway = document.querySelector('.giveaway');
 const deadline = document.querySelector('.deadline');
-const item = document.querySelectorAll('.deadline-format h4');
+const items = document.querySelectorAll('.deadline-format h4');
 
 let futureDate = new Date(2024, 4, 26, 19, 30, 0);
 
@@ -54,4 +54,25 @@ function getRemainingTime(){
   let hours = Math.floor((t % oneDay) / oneHour);
   let mins = Math.floor((t % oneHour) / oneMin);
   let secs = Math.floor((t % oneMin) / oneSec);
+
+  // set velues array
+  const values = [days, hours, mins, secs];
+
+  function format(item){
+    if(item<10){
+      return item = `0${item}`;
+    }
+    return item;
+  }
+
+  items.forEach(function(item, index){
+    item.innerHTML = format(values[index]);
+  });
+  if(t < 0){
+    clearInterval(countdouwn);
+    deadline.innerHTML = `<h4 class="expired">sorry, this giveaway has expired</h4>`;
 }
+}
+// countdouwn
+let countdouwn = setInterval(getRemainingTime,1e3);
+getRemainingTime();
