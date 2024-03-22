@@ -41,7 +41,12 @@ function addItem(e){
             <i class="fas fa-trash"></i>
           </button>
          </div>`;
-        
+        const deleteBtn = element.querySelector('.delete-btn');
+        const editBtn = element.querySelector('.edit-btn');
+
+        deleteBtn.addEventListener('click', deleteItem);
+        editBtn.addEventListener('click', editItem);
+
         // append child
         list.appendChild(element);
         
@@ -56,7 +61,10 @@ function addItem(e){
         setBackToDefault();
     }
     else if(value && editFlag){
-
+        editElement.innerHTML = value;
+        displayAlert('value modified successfully!','success');
+        // edit local storage
+        setBackToDefault();
     }
     else{
         displayAlert('please enter a value!','danger');
@@ -87,6 +95,30 @@ function clearItems(){
     setBackToDefault();
     // localStorage.removeItem('list');
 }
+// Delete Function
+function deleteItem(e){
+    const element = e.currentTarget.parentElement.parentElement;
+    const id  = element.dataset.id;
+    list.removeChild(element);
+    if(list.children.length === 0){
+        container.classList.remove('show-container');
+    }
+    displayAlert('item removed', 'danger');
+    setBackToDefault();
+    // Remove from local storage
+}
+
+// Edit Function
+function editItem(e){
+    const element = e.currentTarget.parentElement.parentElement;
+    // set edit item
+    editElement = e.currentTarget.parentElement.previousElementSibling;
+    //  set form value
+    grocery.value = editElement.innerHTML;
+    editFlag = true;
+    editID = element.dataset.id;
+    submitBtn.textContent = 'edit';
+}
 
 // ****** SET BACK TO DEFAULT ******
 function setBackToDefault(){
@@ -99,5 +131,10 @@ function setBackToDefault(){
 function addToLocalStorage(id, value){
 
 }
+function removeFromLocalStorage(id){
 
+}
+function editLocalStorage(id, value){
+
+}
 // ****** SETUP ITEMS **********
