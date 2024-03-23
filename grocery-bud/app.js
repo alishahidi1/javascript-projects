@@ -14,8 +14,14 @@ let editFlag = false;
 let editID = "";
 
 // ****** EVENT LISTENERS **********
+// submit form
 form.addEventListener("submit", addItem);
+
+// clear items
 clearBtn.addEventListener('click', clearItems);
+
+// load items
+window.addEventListener('DOMContentLoaded', setupItems);
 
 
 // ****** FUNCTIONS **********
@@ -25,31 +31,7 @@ function addItem(e){
 
     const id = new Date().getTime().toString();
     if(value && !editFlag){
-        const element = document.createElement('article');
-        // add class
-        element.classList.add('grocery-item');
-        // add id
-        const attr = document.createAttribute('data-id');
-        attr.value = id;
-        element.setAttributeNode(attr);
-        element.innerHTML = `<p class="tilte">${value}</p>
-        <div class="btn-container">
-          <button class="edit-btn" type="button">
-            <i class="fas fa-edit"></i>
-          </button>
-          <button class="delete-btn" type="button">
-            <i class="fas fa-trash"></i>
-          </button>
-         </div>`;
-        const deleteBtn = element.querySelector('.delete-btn');
-        const editBtn = element.querySelector('.edit-btn');
-
-        deleteBtn.addEventListener('click', deleteItem);
-        editBtn.addEventListener('click', editItem);
-
-        // append child
-        list.appendChild(element);
-        
+        creatListItem(id, value);
         // display alert
         displayAlert('item added to the list!', 'success');
         
@@ -165,3 +147,39 @@ function getLocalStorage(){
 // save as string
 
 // ****** SETUP ITEMS **********
+function setupItems(){
+    let items = getLocalStorage();
+    if(items.length > 0){
+        items.forEach(function(itm){
+            creatListItem(itm.id, itm.value);
+        })
+        container.classList.add('show-container');
+    }
+}
+
+function creatListItem(id, value){
+    const element = document.createElement('article');
+    // add class
+    element.classList.add('grocery-item');
+    // add id
+    const attr = document.createAttribute('data-id');
+    attr.value = id;
+    element.setAttributeNode(attr);
+    element.innerHTML = `<p class="tilte">${value}</p>
+    <div class="btn-container">
+        <button class="edit-btn" type="button">
+        <i class="fas fa-edit"></i>
+        </button>
+        <button class="delete-btn" type="button">
+        <i class="fas fa-trash"></i>
+        </button>
+        </div>`;
+    const deleteBtn = element.querySelector('.delete-btn');
+    const editBtn = element.querySelector('.edit-btn');
+
+    deleteBtn.addEventListener('click', deleteItem);
+    editBtn.addEventListener('click', editItem);
+
+    // append child
+    list.appendChild(element);
+}
