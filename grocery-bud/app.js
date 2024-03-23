@@ -93,7 +93,7 @@ function clearItems(){
     container.classList.remove('show-container');
     displayAlert('empty list', 'danger');
     setBackToDefault();
-    // localStorage.removeItem('list');
+    localStorage.removeItem('list');
 }
 // Delete Function
 function deleteItem(e){
@@ -106,6 +106,7 @@ function deleteItem(e){
     displayAlert('item removed', 'danger');
     setBackToDefault();
     // Remove from local storage
+    removeFromLocalStorage(id);
 }
 
 // Edit Function
@@ -129,12 +130,38 @@ function setBackToDefault(){
 }
 // ****** LOCAL STORAGE **********
 function addToLocalStorage(id, value){
-
+    const grocery = {id, value};
+    let items = getLocalStorage();
+    items.push(grocery);
+    localStorage.setItem('list', JSON.stringify(items));
 }
 function removeFromLocalStorage(id){
+    let items = getLocalStorage();
 
+    items = items.filter(function(itm){
+        if(itm.id !== id){
+            return itm;
+        }
+    });
+    localStorage.setItem('list', JSON.stringify(items));
 }
 function editLocalStorage(id, value){
-
+    let items = getLocalStorage();
+    items = items.map(function(itm){
+        if(itm.id === id){
+            itm.value = value;
+        }
+        return itm;
+    });
+    localStorage.setItem('list', JSON.stringify(items));
 }
+function getLocalStorage(){
+    return localStorage.getItem('list')?JSON.parse(localStorage.getItem('list')):[];
+}
+// local Storage API
+// set Item
+// get Item
+// remove Item
+// save as string
+
 // ****** SETUP ITEMS **********
